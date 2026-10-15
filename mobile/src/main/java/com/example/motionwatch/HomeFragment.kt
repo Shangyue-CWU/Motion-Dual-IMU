@@ -50,9 +50,14 @@ class HomeFragment : Fragment() {
 
     private var isLogging = false
     private var currentSessionId: String = ""
-    private var selectedLabel: String = "TREMOR"
+    private var selectedLabel: String = "WALKING"
 
-    private val labels = listOf("JERKING", "TONIC", "FALLING", "TREMOR", "RUNNING", "WALKING", "SITTING", "STANDING")
+    // Kept in sync with DATA_COLLECTION_PROTOCOL.md: Part 1 single activities (8)
+    // + three simulated movements, plus MIXED for the Part 2 mixed recordings.
+    private val labels = listOf(
+        "WALKING", "SITTING", "TYPING", "WRITING", "BRUSHING", "CLAPPING",
+        "USINGPHONE", "SITSTAND", "JERKING", "TREMOR", "FALL", "MIXED"
+    )
 
     private val logReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {

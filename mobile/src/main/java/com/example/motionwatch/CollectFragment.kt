@@ -32,16 +32,20 @@ class CollectFragment : Fragment(R.layout.fragment_collect) {
 
     private var isLogging = false
 
-    // Match HomeFragment label system exactly
+    // Match HomeFragment label system exactly (see DATA_COLLECTION_PROTOCOL.md).
     private val labels = arrayOf(
-        "JERKING",
-        "TONIC",
-        "FALLS",
-        "TREMOR",
-        "RUNNING",
         "WALKING",
         "SITTING",
-        "STANDING"
+        "TYPING",
+        "WRITING",
+        "BRUSHING",
+        "CLAPPING",
+        "USINGPHONE",
+        "SITSTAND",
+        "JERKING",
+        "TREMOR",
+        "FALL",
+        "MIXED"
     )
 
     private var labelIdx = labels.indexOf("WALKING")

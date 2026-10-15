@@ -40,6 +40,17 @@ import com.example.motionwatch.presentation.theme.MotionWatchTheme
 import com.google.android.gms.wearable.Wearable
 import java.util.UUID
 
+/**
+ * Selectable motion labels, kept in sync with DATA_COLLECTION_PROTOCOL.md.
+ * Part 1 single activities (8) + three simulated movements, plus MIXED for the
+ * Part 2 mixed recordings. Single-token names keep the "_"-delimited CSV file
+ * names unambiguous.
+ */
+val MOTION_LABELS = listOf(
+    "WALKING", "SITTING", "TYPING", "WRITING", "BRUSHING", "CLAPPING",
+    "USINGPHONE", "SITSTAND", "JERKING", "TREMOR", "FALL", "MIXED"
+)
+
 class MainActivity : ComponentActivity() {
 
     // ── Compose state ─────────────────────────────────────────────────────────
@@ -175,7 +186,7 @@ fun WearApp(
 ) {
     MotionWatchTheme {
         var isLogging     by remember { mutableStateOf(false) }
-        var sportCategory by remember { mutableStateOf("JERKING") }
+        var sportCategory by remember { mutableStateOf(MOTION_LABELS.first()) }
 
         Box(
             modifier = Modifier
@@ -219,17 +230,9 @@ fun WearApp(
                     Button(
                         onClick = {
                             if (!isLogging) {
-                                sportCategory = when (sportCategory) {
-                                    "JERKING"  -> "TONIC"
-                                    "TONIC"    -> "FALLS"
-                                    "FALLS"    -> "TREMOR"
-                                    "TREMOR"   -> "RUNNING"
-                                    "RUNNING"  -> "WALKING"
-                                    "WALKING"  -> "SITTING"
-                                    "SITTING"  -> "STANDING"
-                                    "STANDING" -> "JERKING"
-                                    else       -> "JERKING"
-                                }
+                                // Advance to the next label in MOTION_LABELS (wraps around).
+                                val idx = MOTION_LABELS.indexOf(sportCategory).takeIf { it >= 0 } ?: 0
+                                sportCategory = MOTION_LABELS[(idx + 1) % MOTION_LABELS.size]
                             }
                         },
                         modifier = Modifier
